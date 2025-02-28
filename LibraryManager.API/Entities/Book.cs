@@ -2,9 +2,8 @@
 
 public class Book
 {
-    public Book(int id, string title, string author, string iSBN, int year)
+    public Book(string title, string author, string iSBN, int year)
     {
-        Id = id;
         Title = title;
         Author = author;
         ISBN = iSBN;
@@ -17,4 +16,12 @@ public class Book
     public string ISBN {  get; set; }   
     public int Year {  get; set; }
     public List<Loan> Loans { get; set; }
+
+    public void Update(string title, string author, string iSBN, int year)
+    {
+        Title = title;
+        Author = author;
+        ISBN = iSBN;
+        Year = year;
+    }
 }

@@ -4,11 +4,11 @@ namespace LibraryManager.API.Entities;
 
 public class Loan
 {
-    public Loan(int id, int idUser, int idBook)
+    public Loan(int idUser, int idBook)
     {
-        Id = id;
         IdUser = idUser;
         IdBook = idBook;
+        Status = LoanStatusEnum.Available;
     }
 
     public int Id { get; set; }
@@ -19,4 +19,38 @@ public class Loan
     public LoanStatusEnum Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime ReturnDate { get; set; }
+
+    public void Lend()
+    {
+        if (Status == LoanStatusEnum.Available)
+        {
+            Status = LoanStatusEnum.Borrowed;
+            CreatedAt = DateTime.Now;
+            ReturnDate = CreatedAt.AddDays(7);
+        }
+    }
+
+    public void Returned()
+    {
+        if (Status == LoanStatusEnum.Borrowed)
+        {
+            Status = LoanStatusEnum.Returned;
+        }
+    }
+
+    public void Unavailable()
+    {
+        if(Status == LoanStatusEnum.None || Status == LoanStatusEnum.Unavailable)
+        {
+            Status = LoanStatusEnum.Unavailable;
+        }
+    }
+
+    public void Update(int idUser,  int idBook)
+    {
+        IdUser = idUser;
+        IdBook = idBook;
+    }
+
+
 }

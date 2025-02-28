@@ -1,9 +1,11 @@
-﻿using LibraryManager.API.Models;
+﻿using LibraryManager.API.Entities;
+using LibraryManager.API.Models;
 using LibraryManager.API.Persistence;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.API.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
@@ -18,19 +20,41 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        return Ok();
+        var users = _context.Users
+            .Include(u => u.Loans)
+                .ThenInclude(b => b.Book)
+            .ToList();
+
+        var model = users.Select(UserViewModel.FromEntity).ToList();
+
+        return Ok(model);
     }
 
     [HttpPost]
     public IActionResult Post(CreateUserInputModel model) 
     {
+        var user = new User(model.FullName, model.Email, model.Password);
+
+        _context.Add(user);
+        _context.SaveChanges();
+
         return NoContent(); 
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        return NoContent();
+        var user = _context.Users.SingleOrDefault(u => u.Id == id);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        _context.Remove(user);
+        _context.SaveChanges();
+
+        return Ok("Usuario removido");
     }
     
 

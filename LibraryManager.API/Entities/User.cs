@@ -3,9 +3,8 @@
 public class User
 {
     public User() { }
-    public User(int id, string fullName, string email, string password)
+    public User(string fullName, string email, string password)
     {
-        Id = id;
         FullName = fullName;
         Email = email;
         Password = password;
