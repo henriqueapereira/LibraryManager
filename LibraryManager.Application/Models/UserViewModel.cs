@@ -1,6 +1,6 @@
-﻿using LibraryManager.API.Entities;
+﻿using LibraryManager.Core.Entities;
 
-namespace LibraryManager.API.Models;
+namespace LibraryManager.Application.Models;
 
 public class UserViewModel
 {
@@ -23,7 +23,7 @@ public class UserViewModel
     {
         var loans = user.Loans.Select(u => u.Book).Select(b => b.Title).ToList();
 
-        return new (user.Id, user.FullName, user.Email, user.Password, loans);
+        return new(user.Id, user.FullName, user.Email, user.Password, loans);
     }
-        
+
 }

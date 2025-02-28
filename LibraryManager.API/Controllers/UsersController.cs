@@ -1,6 +1,6 @@
-﻿using LibraryManager.API.Entities;
-using LibraryManager.API.Models;
-using LibraryManager.API.Persistence;
+﻿using LibraryManager.Application.Models;
+using LibraryManager.Core.Entities;
+using LibraryManager.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,7 @@ public class UsersController : ControllerBase
         _context.Add(user);
         _context.SaveChanges();
 
-        return NoContent(); 
+        return Ok("Usuario cadastrado"); 
     }
 
     [HttpDelete("{id}")]

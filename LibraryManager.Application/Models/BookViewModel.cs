@@ -1,6 +1,6 @@
-﻿using LibraryManager.API.Entities;
+﻿using LibraryManager.Core.Entities;
 
-namespace LibraryManager.API.Models;
+namespace LibraryManager.Application.Models;
 
 public class BookViewModel
 {

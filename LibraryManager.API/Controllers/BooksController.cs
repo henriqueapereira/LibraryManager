@@ -1,9 +1,7 @@
-﻿using LibraryManager.API.Entities;
-using LibraryManager.API.Models;
-using LibraryManager.API.Persistence;
-using Microsoft.AspNetCore.Http;
+﻿using LibraryManager.Application.Models;
+using LibraryManager.Core.Entities;
+using LibraryManager.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LibraryManager.API.Controllers;
 [Route("api/[controller]")]

@@ -24,7 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Migrations\" />
+    <ProjectReference Include="..\LibraryManager.Application\LibraryManager.Application.csproj" />
+    <ProjectReference Include="..\LibraryManager.Core\LibraryManager.Core.csproj" />
+    <ProjectReference Include="..\LibraryManager.Infrastructure\LibraryManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿using LibraryManager.API.Enums;
+﻿using LibraryManager.Core.Enums;
 
-namespace LibraryManager.API.Entities;
+namespace LibraryManager.Core.Entities;
 
 public class Loan
 {
@@ -12,7 +12,7 @@ public class Loan
     }
 
     public int Id { get; set; }
-    public int IdUser { get; set; } 
+    public int IdUser { get; set; }
     public User User { get; set; }
     public int IdBook { get; set; }
     public Book Book { get; set; }
@@ -40,13 +40,13 @@ public class Loan
 
     public void Unavailable()
     {
-        if(Status == LoanStatusEnum.None || Status == LoanStatusEnum.Unavailable)
+        if (Status == LoanStatusEnum.None || Status == LoanStatusEnum.Unavailable)
         {
             Status = LoanStatusEnum.Unavailable;
         }
     }
 
-    public void Update(int idUser,  int idBook)
+    public void Update(int idUser, int idBook)
     {
         IdUser = idUser;
         IdBook = idBook;

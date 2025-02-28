@@ -1,7 +1,7 @@
-﻿using LibraryManager.API.Entities;
-using LibraryManager.API.Enums;
+﻿using LibraryManager.Core.Entities;
+using LibraryManager.Core.Enums;
 
-namespace LibraryManager.API.Models;
+namespace LibraryManager.Application.Models;
 
 public class LoanViewModel
 {

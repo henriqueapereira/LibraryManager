@@ -1,8 +1,8 @@
-﻿using LibraryManager.API.Entities;
-using LibraryManager.API.Models;
-using LibraryManager.API.Persistence;
+﻿using LibraryManager.Application.Models;
+using LibraryManager.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LibraryManager.Core.Entities;
 
 namespace LibraryManager.API.Controllers;
 [Route("api/[controller]")]
@@ -55,7 +55,7 @@ public class LoansController : ControllerBase
         _context.Loans.Add(loan);
         _context.SaveChanges();
 
-        return NoContent();
+        return Ok("Empréstimo cadastrado");
     }
 
     [HttpPut("{id}")]

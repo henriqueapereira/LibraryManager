@@ -1,5 +1,4 @@
-
-using LibraryManager.API.Persistence;
+using LibraryManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
