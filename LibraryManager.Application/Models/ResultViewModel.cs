@@ -14,7 +14,7 @@ public class ResultViewModel
     public static ResultViewModel Success()
         => new ResultViewModel();
 
-    public static ResultViewModel Erro(string message)
+    public static ResultViewModel Error(string message)
         => new ResultViewModel(false, message);
 }
 
@@ -31,6 +31,6 @@ public class ResultViewModel<T> : ResultViewModel
     public static ResultViewModel<T> Success(T data)
         => new ResultViewModel<T>(data);
 
-    public static ResultViewModel<T> Erro(string message)
+    public static ResultViewModel<T> Error(string message)
         => new ResultViewModel<T>(default, false, message);
 }

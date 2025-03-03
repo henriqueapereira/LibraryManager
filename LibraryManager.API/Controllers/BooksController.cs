@@ -18,16 +18,7 @@ public class BooksController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var books = _context.Books;
-
-        if (books is null)
-        {
-            return BadRequest("Não existem livros cadastrados");
-        }
-
-        var model = books.Select(BookViewModel.FromEntity).ToList();
-
-        return Ok(model);
+         
     }
 
     [HttpGet("{id}")]
