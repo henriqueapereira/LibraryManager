@@ -1,4 +1,4 @@
-# 🏥 LibraryManager - Backend
+# 📚 LibraryManager - Backend
 
 LibraryManager é um sistema de gerenciamento de bibliotecas desenvolvido em C# com ASP.NET Core, seguindo os princípios da **Clean Architecture** para garantir uma estrutura escalável, de fácil manutenção e bem organizada.
 
