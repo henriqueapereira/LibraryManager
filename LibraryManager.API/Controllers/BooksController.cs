@@ -1,6 +1,5 @@
 ﻿using LibraryManager.Application.Models;
-using LibraryManager.Core.Entities;
-using LibraryManager.Infrastructure.Persistence;
+using LibraryManager.Application.Services.Book;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.API.Controllers;
@@ -8,77 +7,47 @@ namespace LibraryManager.API.Controllers;
 [ApiController]
 public class BooksController : ControllerBase
 {
-    private readonly LibraryManagerDbContext _context;
+    private readonly IBookService _service;
 
-    public BooksController(LibraryManagerDbContext context)
-    {
-        _context = context;
-    }
+    public BooksController(IBookService service) => _service = service;
 
     [HttpGet]
     public IActionResult GetAll()
     {
-         
+        var result = _service.GetAll();
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var book = _context.Books.SingleOrDefault(b => b.Id == id);
+        var result = _service.GetById(id);
 
-        if (book is null)
-        {
-            return BadRequest("Não existem livros cadastrados");
-        }
-
-        var model = BookViewModel.FromEntity(book);
-
-        return Ok(model);
+        return Ok(result);
     }
 
     [HttpPost]
     public IActionResult Post(CreateBookInputModel model)
     {
-        var book = new Book(model.Title, model.Author, model.ISBN, model.Year);
+        var result = _service.Insert(model);
 
-        _context.Add(book);
-        _context.SaveChanges();
-
-        return Ok("Livro cadastrado");
+        return CreatedAtAction(nameof(GetById), new { id = result.Data }, model);
     }
 
     [HttpPut("{id}")]
     public IActionResult Put(int id, UpdateBookInputModel model)
     {
-        var book = _context.Books.SingleOrDefault(b => b.Id == id);
+        var result = _service.Update(id, model);
 
-        if (book == null)
-        {
-            return BadRequest("Livro não encontrado");
-        }
-
-        book.Update(model.Title, model.Author, model.ISBN, model.Year);
-
-        _context.Books.Update(book);
-        _context.SaveChanges();
-
-        return Ok("Livro atualizado");
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var book = _context.Books.SingleOrDefault(b => b.Id == id);
+        var result = _service.Delete(id);
 
-        if (book == null)
-        {
-            return BadRequest("Livro não encontrado");
-        }
-
-        _context.Books.Update(book);
-        _context.SaveChanges();
-
-        return Ok("Livro removido");
+        return NoContent();
     }
 
 }

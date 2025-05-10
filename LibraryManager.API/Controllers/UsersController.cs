@@ -1,8 +1,6 @@
 ﻿using LibraryManager.Application.Models;
-using LibraryManager.Core.Entities;
-using LibraryManager.Infrastructure.Persistence;
+using LibraryManager.Application.Services.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.API.Controllers;
 
@@ -10,52 +8,26 @@ namespace LibraryManager.API.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly LibraryManagerDbContext _context;
+    private readonly IUserService _service;
 
-    public UsersController(LibraryManagerDbContext context) 
+    public UsersController(IUserService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _context.Users
-            .Include(u => u.Loans)
-                .ThenInclude(b => b.Book)
-            .ToList();
-
-        var model = users.Select(UserViewModel.FromEntity).ToList();
-
-        return Ok(model);
+        var result = _service.GetAll();
+        
+        return Ok(result);
     }
 
     [HttpPost]
     public IActionResult Post(CreateUserInputModel model) 
     {
-        var user = new User(model.FullName, model.Email, model.Password);
+        var result = _service.Insert(model);
 
-        _context.Add(user);
-        _context.SaveChanges();
-
-        return Ok("Usuario cadastrado"); 
+        return NoContent();
     }
-
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        var user = _context.Users.SingleOrDefault(u => u.Id == id);
-
-        if (user is null)
-        {
-            return NotFound();
-        }
-
-        _context.Remove(user);
-        _context.SaveChanges();
-
-        return Ok("Usuario removido");
-    }
-    
-
 }
