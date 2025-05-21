@@ -74,7 +74,7 @@ public class BookService : IBookService
             return ResultViewModel<BookViewModel>.Error("O livro não foi encontrado");
         }
 
-        _context.Books.Update(book);
+        _context.Books.Remove(book);
         _context.SaveChanges();
 
         return ResultViewModel.Success();
