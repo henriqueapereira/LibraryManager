@@ -32,7 +32,7 @@ public class Loan
 
     public void Returned()
     {
-        if (Status == LoanStatusEnum.Borrowed)
+        if (Status == LoanStatusEnum.Borrowed || Status == LoanStatusEnum.Late)
         {
             Status = LoanStatusEnum.Returned;
         }

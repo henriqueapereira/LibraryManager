@@ -51,10 +51,10 @@ public class LoansController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{idUser}/return-book")]
-    public IActionResult LoanReturned(int idUser, int idBook)
+    [HttpPut("returned")]
+    public IActionResult LoanReturned(int idLoan)
     {
-        var result = _service.LoanReturned(idUser, idBook);
+        var result = _service.LoanReturned(idLoan);
 
         return NoContent();
     }

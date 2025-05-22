@@ -13,5 +13,5 @@ public interface ILoanService
     ResultViewModel<int> Insert(CreateLoanInputModel model);
     ResultViewModel Update(int id, UpdateLoanInputModel model);
     ResultViewModel Delete(int id);
-    ResultViewModel LoanReturned(int idUser, int idBook);
+    ResultViewModel LoanReturned(int idLoan);
 }
