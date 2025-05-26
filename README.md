@@ -19,9 +19,9 @@ LibraryManager é um sistema de gerenciamento de bibliotecas desenvolvido em C# 
 
 Durante o desenvolvimento, implementamos as operações básicas de CRUD (Create, Read, Update, Delete) para as principais entidades do sistema:
 
-- **Livros**.
-- **Empréstimos**.
-- **Usuários**.
+- **Livros**- Cadastro, edição, consulta remoção
+- **Empréstimos**- Cadastro, edição, consulta, remoção e alteração do status do livro para alugado ou atrasado, impossibilitando novos empréstimos 
+- **Usuários**- Cadastro, edição, consulta e remoção
 
 Essas funcionalidades permitem uma gestão eficiente e integrada dos processos da biblioteca, facilitando o dia a dia dos usuários.
 

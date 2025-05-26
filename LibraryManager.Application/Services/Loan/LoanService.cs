@@ -14,35 +14,35 @@ public class LoanService : ILoanService
         _context = context;
     }
     public ResultViewModel<List<LoanViewModel>> GetAll()
-{
-    var today = DateTime.Now.Date;
-
-    var loans = _context.Loans
-        .Include(u => u.User)
-        .Include(b => b.Book)
-        .Where(l => true) // Só para manter a cadeia fluente
-        .ToList();
-
-    bool updated = false;
-
-    foreach (var loan in loans)
     {
-        if (loan.Status != LoanStatusEnum.Late && loan.Status != LoanStatusEnum.Returned && loan.ReturnDate.Date < today)
+        var today = DateTime.Now.Date;
+
+        var loans = _context.Loans
+            .Include(u => u.User)
+            .Include(b => b.Book)
+            .Where(l => true) // Só para manter a cadeia fluente
+            .ToList();
+
+        bool updated = false;
+
+        foreach (var loan in loans)
         {
-            loan.Status = LoanStatusEnum.Late;
-            updated = true;
+            if (loan.Status != LoanStatusEnum.Late && loan.Status != LoanStatusEnum.Returned && loan.ReturnDate.Date < today)
+            {
+                loan.Status = LoanStatusEnum.Late;
+                updated = true;
+            }
         }
+
+        if (updated)
+        {
+            _context.SaveChanges();
+        }
+
+        var model = loans.Select(LoanViewModel.FromEntity).ToList();
+
+        return ResultViewModel<List<LoanViewModel>>.Success(model);
     }
-
-    if (updated)
-    {
-        _context.SaveChanges();
-    }
-
-    var model = loans.Select(LoanViewModel.FromEntity).ToList();
-
-    return ResultViewModel<List<LoanViewModel>>.Success(model);
-}
 
 
     /*
@@ -95,6 +95,15 @@ public class LoanService : ILoanService
 
     public ResultViewModel<int> Insert(CreateLoanInputModel model)
     {
+        var existingLoan = _context.Loans
+                .FirstOrDefault(l => l.IdBook == model.IdBook &&
+                            (l.Status == LoanStatusEnum.Borrowed || l.Status == LoanStatusEnum.Late));
+
+        if (existingLoan != null)
+        {
+            return ResultViewModel<int>.Error("Este livro já está emprestado.");
+        }
+
         var loan = model.ToEntity();
 
         loan.Lend();
@@ -162,24 +171,24 @@ public class LoanService : ILoanService
         return ResultViewModel.Success();
     }
     */
-    
+
     public ResultViewModel LoanReturned(int idLoan)
-{
-    var loanReturn = _context.Loans
-        .Include(u => u.User)
-        .Include(b => b.Book)
-        .SingleOrDefault(x => x.Id == idLoan);
-
-    if (loanReturn == null)
     {
-        return ResultViewModel.Error("Empréstimo não encontrado para o ID informado.");
+        var loanReturn = _context.Loans
+            .Include(u => u.User)
+            .Include(b => b.Book)
+            .SingleOrDefault(x => x.Id == idLoan);
+
+        if (loanReturn == null)
+        {
+            return ResultViewModel.Error("Empréstimo não encontrado para o ID informado.");
+        }
+
+        loanReturn.Returned(); // Altera o status para Returned, se válido
+
+        _context.Loans.Update(loanReturn);
+        _context.SaveChanges();
+
+        return ResultViewModel.Success();
     }
-
-    loanReturn.Returned(); // Altera o status para Returned, se válido
-
-    _context.Loans.Update(loanReturn);
-    _context.SaveChanges();
-
-    return ResultViewModel.Success(); 
-}
 }

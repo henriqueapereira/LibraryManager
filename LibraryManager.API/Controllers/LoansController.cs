@@ -3,6 +3,7 @@ using LibraryManager.Application.Services.Loan;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.API.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class LoansController : ControllerBase
@@ -20,9 +21,9 @@ public class LoansController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id) 
+    public IActionResult GetById(int id)
     {
-        var result = _service.GetById(id);   
+        var result = _service.GetById(id);
 
         return Ok(result);
     }
@@ -32,11 +33,14 @@ public class LoansController : ControllerBase
     {
         var result = _service.Insert(model);
 
-        return NoContent();
+        if (!result.IsSuccess)
+            return BadRequest(result); 
+
+        return CreatedAtAction(nameof(GetById), new { id = result.Data }, result);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, UpdateLoanInputModel model) 
+    public IActionResult Put(int id, UpdateLoanInputModel model)
     {
         var result = _service.Update(id, model);
 
@@ -44,7 +48,7 @@ public class LoansController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id) 
+    public IActionResult Delete(int id)
     {
         var result = _service.Delete(id);
 

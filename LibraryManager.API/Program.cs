@@ -11,8 +11,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDbContext<LibraryManagerDbContext>(o => o.UseInMemoryDatabase("LibraryManagerDb"));
-
 var connectionString = builder.Configuration.GetConnectionString("LibraryManagerCs");
 builder.Services.AddDbContext<LibraryManagerDbContext>(o => o.UseSqlServer(connectionString));
 
